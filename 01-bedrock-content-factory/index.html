@@ -701,7 +701,8 @@
         throw new Error(`Erreur ${response.status} : ${err}`);
       }
 
-      const data = await response.json();
+      const raw  = await response.json();
+      const data = typeof raw.body === "string" ? JSON.parse(raw.body) : raw;
 
       const blocks = [
         { label: '🎯 Titre',         key: 'titre' },
