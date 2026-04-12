@@ -6,6 +6,19 @@ MODEL_ID = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
 
 
 def handler(event, context):
+    # RESPONSE_STREAM : le body peut arriver directement ou encodé
+    raw_body = event.get("body") or "{}"
+    
+    # Si le body est un dict (déjà parsé par Lambda)
+    if isinstance(raw_body, dict):
+        body = raw_body
+    else:
+        import base64
+        # Parfois encodé en base64
+        if event.get("isBase64Encoded"):
+            raw_body = base64.b64decode(raw_body).decode("utf-8")
+        body = json.loads(raw_body)
+        
     body     = json.loads(event.get("body") or "{}")
     product  = body.get("product", "")
     desc     = body.get("description", "")
