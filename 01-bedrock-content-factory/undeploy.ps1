@@ -14,10 +14,13 @@ aws lambda remove-permission `
     --function-name $FUNCTION_NAME `
     --statement-id FunctionURLAllowPublicAccess `
     --region $REGION 2>$null
+
+# Permission ajoutée suite au fix 403
 aws lambda remove-permission `
     --function-name $FUNCTION_NAME `
-    --statement-id FunctionURLAllowPublicAccess2 `
+    --statement-id UrlPolicyInvokeFunction `
     --region $REGION 2>$null
+
 Write-Host "  OK" -ForegroundColor Green
 
 Write-Host "Suppression de la fonction Lambda..." -ForegroundColor Yellow
